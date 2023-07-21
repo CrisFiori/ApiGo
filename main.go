@@ -11,9 +11,9 @@ type userType struct {
 }
 
 var users = []userType{
-	{Id: "1", Name: "Georgi", IsAdmin: true},
-	{Id: "2", Name: "Cristian", IsAdmin: true},
-	{Id: "3", Name: "Delfi", IsAdmin: true},
+	{Id: "1", Name: "Iron Man", IsAdmin: true},
+	{Id: "2", Name: "Thor", IsAdmin: true},
+	{Id: "3", Name: "Spiderman", IsAdmin: true},
 }
 
 func main() {
@@ -21,13 +21,16 @@ func main() {
 
 	//routes GET
 	//CRUD: create -read -update -delete
+	userGroup := app.Group("/users")
+	{
+		userGroup.Post("/", create)
+		userGroup.Get("/", read)
+		userGroup.Get("/:userId", getUser)
+		userGroup.Put("/:userId", update)
+		userGroup.Patch("/:userId", partialupdate)
+		userGroup.Delete("/:userId", delete)
+	}
 
-	app.Post("/", create)
-	app.Get("/users", read)
-	app.Get("/users/:userId", getUser)
-	app.Put("/", update)
-	app.Patch("/", update)
-	app.Delete("/", delete)
 	//Start Server
 	app.Listen(":8080")
 }
