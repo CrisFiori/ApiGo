@@ -12,7 +12,7 @@ func create(c *fiber.Ctx) error {
 	err := c.BodyParser(&userFromBody)
 
 	if err != nil {
-		return c.SendString("Bad request")
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 	users = append(users, userFromBody)
 	return c.JSON(userFromBody)
@@ -42,7 +42,7 @@ func update(c *fiber.Ctx) error {
 	}
 	c.BodyParser(&userFromBody)
 	if err != nil {
-		return c.JSON(err.Error())
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 	//replace value from users
 	//	first: remove from users, second add to users
